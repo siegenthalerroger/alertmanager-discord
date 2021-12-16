@@ -135,6 +135,8 @@ func sendWebhook(amo *alertManOut) {
 		resp, err := http.Post(*whURL, "application/json", bytes.NewReader(DOD))
 		if err != nil {
 			log.Printf("Failed to send alert payload to discord endpoint, http error: %s", string(resp.Request.Response.StatusCode))
+		} else {
+			log.Printf("Sent alert payload to discord, http response: %s", string(resp.Request.Response.StatusCode))
 		}
 	}
 }
@@ -166,6 +168,8 @@ func sendRawPromAlertWarn() {
 	resp, err := http.Post(*whURL, "application/json", bytes.NewReader(DOD))
 	if err != nil {
 		log.Printf("Failed to send incorrect configuration payload to discord endpoint, http error: %s", string(resp.Request.Response.StatusCode))
+	} else {
+		log.Printf("Sent incorrect configuration payload to discord, http response: %s", string(resp.Request.Response.StatusCode))
 	}
 }
 
