@@ -132,7 +132,10 @@ func sendWebhook(amo *alertManOut) {
 		DO.Embeds = []discordEmbed{RichEmbed}
 
 		DOD, _ := json.Marshal(DO)
-		http.Post(*whURL, "application/json", bytes.NewReader(DOD))
+		resp, err := http.Post(*whURL, "application/json", bytes.NewReader(DOD))
+		if err != nil {
+			log.Printf("Failed to send alert payload to discord endpoint, http error: %s", string(resp.Request.Response.StatusCode))
+		}
 	}
 }
 
@@ -160,7 +163,10 @@ func sendRawPromAlertWarn() {
 	}
 
 	DOD, _ := json.Marshal(DO)
-	http.Post(*whURL, "application/json", bytes.NewReader(DOD))
+	resp, err := http.Post(*whURL, "application/json", bytes.NewReader(DOD))
+	if err != nil {
+		log.Printf("Failed to send incorrect configuration payload to discord endpoint, http error: %s", string(resp.Request.Response.StatusCode))
+	}
 }
 
 func main() {
